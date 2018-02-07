@@ -66,7 +66,9 @@ MIDDLEWARE_CLASSES = (
 # DEBUG
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
+DEBUG =  False
+
+ALLOWED_HOSTS = ['*']
 
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -157,6 +159,12 @@ TEMPLATES = [
         },
     },
 ]
+
+# EMAIL
+EMAIL_BACKEND = 'sparkpost.django.email_backend.SparkPostEmailBackend'
+EMAIL_HOST = 'smtp.sparkpostmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'SMTP_Injection'
 
 
 # STATIC FILE CONFIGURATION

@@ -16,6 +16,10 @@ from .common import *  # noqa
 # Raises ImproperlyConfigured exception if DJANGO_SECRET_KEY not in os.environ
 # SECRET_KEY = env("DJANGO_SECRET_KEY")
 
+DEBUG = False
+
+ALLOWED_HOSTS = ['*']
+
 # This ensures that Django will be able to detect a secure connection
 # properly on Heroku.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -31,6 +35,10 @@ SECURITY_MIDDLEWARE = (
 MIDDLEWARE_CLASSES = ()
 # Make sure djangosecure.middleware.SecurityMiddleware is listed first
 MIDDLEWARE_CLASSES = SECURITY_MIDDLEWARE + MIDDLEWARE_CLASSES
+
+RAVEN_CONFIG = {
+    'dsn': os.getenv('SENTRY_DSN'),
+}
 
 # set this to 60 seconds and then to 518400 when you can prove it works
 SECURE_HSTS_SECONDS = 60
@@ -56,7 +64,6 @@ INSTALLED_APPS += ("gunicorn", )
 
 # EMAIL
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = 'sparkpost.django.email_backend.SparkPostEmailBackend'
 SPARKPOST_API_KEY = os.getenv('SPARKPOST_API_KEY')
 
 # TEMPLATE CONFIGURATION
