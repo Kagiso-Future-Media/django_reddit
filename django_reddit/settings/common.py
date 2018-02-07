@@ -13,6 +13,8 @@ ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
 
 env = environ.Env()
 
+SECRET_KEY = default='fv2d%crl145t-n-x=s&_ut8f0r8(gfgs3r)vk!xdz^&f_w)fvz'
+
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
 DJANGO_APPS = (
