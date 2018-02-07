@@ -67,7 +67,7 @@ INSTALLED_APPS += ("gunicorn", )
 
 # EMAIL
 # ------------------------------------------------------------------------------
-SPARKPOST_API_KEY = os.getenv('SPARKPOST_API_KEY')
+# SPARKPOST_API_KEY = os.getenv('SPARKPOST_API_KEY')
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
