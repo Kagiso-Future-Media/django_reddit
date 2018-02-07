@@ -5,6 +5,7 @@ Production Configurations
 - Use djangosecure
 - Use mailgun to send emails
 '''
+import dj_database_url
 from django.utils import six
 
 from .common import *  # noqa
@@ -55,13 +56,13 @@ INSTALLED_APPS += ("gunicorn", )
 
 # EMAIL
 # ------------------------------------------------------------------------------
-DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
-                         default='django_reddit <noreply@domain_name')
-EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-MAILGUN_ACCESS_KEY = env('DJANGO_MAILGUN_API_KEY')
-MAILGUN_SERVER_NAME = env('DJANGO_MAILGUN_SERVER_NAME')
-EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[django_reddit] ')
-SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
+# DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
+#                          default='django_reddit <noreply@domain_name')
+# EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+# MAILGUN_ACCESS_KEY = env('DJANGO_MAILGUN_API_KEY')
+# MAILGUN_SERVER_NAME = env('DJANGO_MAILGUN_SERVER_NAME')
+# EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[django_reddit] ')
+# SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -75,19 +76,16 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-DATABASES['default'] = env.db("DATABASE_URL")
-
+DATABASES['default'] = dj_database_url.config()
 # CACHING
 # ------------------------------------------------------------------------------
 # Heroku URL does not pass the DB number, so we parse it in
 CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "{0}/{1}".format(env.cache_url('REDIS_URL', default="redis://127.0.0.1:6379"), 0),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,  # mimics memcache behavior.
-                                        # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv('REDISCLOUD_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }
 }
@@ -140,6 +138,6 @@ LOGGING = {
     }
 }
 # Custom Admin URL
-ADMIN_URL = env('DJANGO_ADMIN_URL')
+# ADMIN_URL = os.getenv('DJANGO_ADMIN_URL')
 
 # Your production stuff: Below this line define 3rd party library settings
