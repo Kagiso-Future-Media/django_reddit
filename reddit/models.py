@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
-from radio_community.utils.model_utils import ContentTypeAware, MttpContentTypeAware
+from django_reddit.utils.model_utils import ContentTypeAware, MttpContentTypeAware
 
 
 class Submission(ContentTypeAware):
