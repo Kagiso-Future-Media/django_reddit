@@ -5,8 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
-from django_reddit.utils.model_utils import ContentTypeAware, MttpContentTypeAware
-
+from radio_community.utils.model_utils import ContentTypeAware, MttpContentTypeAware
 
 
 class Submission(ContentTypeAware):
@@ -46,8 +45,14 @@ class Comment(MttpContentTypeAware):
     author_name = models.CharField(null=False, max_length=12)
     author = models.ForeignKey('users.RedditUser', on_delete=models.CASCADE)
     submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
-    parent = TreeForeignKey('self', related_name='children',
-                            null=True, blank=True, db_index=True, on_delete=models.CASCADE)
+    parent = TreeForeignKey(
+        'self',
+        related_name='children',
+        null=True,
+        blank=True,
+        db_index=True,
+        on_delete=models.CASCADE
+    )
     timestamp = models.DateTimeField(default=timezone.now)
     ups = models.IntegerField(default=0)
     downs = models.IntegerField(default=0)
